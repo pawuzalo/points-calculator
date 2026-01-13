@@ -81,12 +81,12 @@
     <script>
         const GOAL=2500000;
         const actions=[
+            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
+            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
             {name:'Consume 10 honor medal',pts:12,key:'honor',bundle:10},
             {name:'Consume rare troop skin',pts:12000,key:'rare_skin',bundle:1},
             {name:'Consume epic troop skin',pts:30000,key:'epic_skin',bundle:1},
-            {name:'Consume legendary troop skin',pts:300000,key:'legendary_skin',bundle:1},
-            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
-            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
+            {name:'Consume legendary troop skin',pts:300000,key:'legendary_skin',bundle:1}
         ];
         const inv={};
         actions.forEach(a=>inv[a.key]=0);
