@@ -81,14 +81,14 @@
     <script>
         const GOAL=2500000;
         const actions=[
-            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
-            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
             {name:'Wish for relic',pts:1500,key:'wish',bundle:1},
             {name:'Consume rare relic shard',pts:200,key:'rare',bundle:1},
             {name:'Consume epic relic shard',pts:1000,key:'epic',bundle:1},
             {name:'Consume legendary relic shard',pts:5000,key:'legendary',bundle:1},
             {name:'Consume 2000 magic stones',pts:600,key:'stones',bundle:2000},
             {name:'Consume arcane crystal',pts:1200,key:'crystal',bundle:1}
+            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
+            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
         ];
         const inv={};
         actions.forEach(a=>inv[a.key]=0);
@@ -176,4 +176,5 @@
         update();
     </script>
 </body>
+
 </html>
