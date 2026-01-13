@@ -104,36 +104,17 @@
             <div id="actionsList" class="space-y-3"></div>
         </div>
         
-        <!-- Buy Diamonds Section -->
-        <div class="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-3xl shadow-2xl p-6 border-4 border-yellow-500 mb-6">
-            <h2 class="text-2xl font-black text-orange-700 mb-4 flex items-center gap-2">
-                <span class="text-3xl">💎</span> NEED MORE POINTS? BUY DIAMONDS
-            </h2>
-            <div class="bg-white rounded-2xl p-4 border-2 border-orange-400">
-                <div class="text-center mb-4">
-                    <div class="text-orange-700 font-bold mb-2">Each diamond purchased = 40 points</div>
-                    <div class="text-sm text-gray-600 italic">Diamonds give points instantly when bought!</div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-red-50 rounded-xl p-4 border-2 border-red-300">
-                        <div class="text-red-700 font-bold text-sm mb-1">Points Still Needed:</div>
-                        <div class="text-3xl font-black text-red-600" id="diamondsShortBy">0</div>
-                    </div>
-                    <div class="bg-green-50 rounded-xl p-4 border-2 border-green-300">
-                        <div class="text-green-700 font-bold text-sm mb-1">Diamonds to Buy:</div>
-                        <div class="text-3xl font-black text-green-600" id="diamondsNeeded">0</div>
-                    </div>
-                </div>
-                <div class="mt-4 text-center text-sm text-gray-600 font-semibold">
-                    💡 This is optional - only if you want to reach the goal faster!
-                </div>
+        <div id="shortBox" class="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl shadow-2xl p-5 border-4 border-red-500 mb-6" style="display:none">
+            <div class="flex items-center gap-2 mb-3"><span class="text-3xl">⚠️</span><h3 class="text-xl font-black text-red-700">NEED MORE POINTS?</h3></div>
+            <div class="bg-white rounded-xl p-4 border-2 border-red-300">
+                <div class="text-center mb-3"><div class="text-red-700 font-bold text-sm">You're Short By:</div><div class="text-3xl font-black text-red-600" id="shortAmount">0</div></div>
+                <div class="text-blue-700 font-bold text-sm mb-2">💡 Options:</div>
+                <div id="options" class="space-y-1 text-sm"></div>
+                <div class="mt-3 text-xs text-center text-gray-600 italic">Pick any option to reach your goal!</div>
             </div>
         </div>
-        
-        <!-- Footer Message -->
-        <div class="text-center text-white text-xl font-black bg-blue-600 py-4 rounded-2xl border-4 border-yellow-400 shadow-lg">
-            🐾 Stay PAWesome and have fun! 🐾
-        </div>
+
+        <div class="text-center text-white text-xl font-black bg-blue-600 py-4 rounded-2xl border-4 border-yellow-400 shadow-lg">🐾 Stay PAWesome and have fun! 🐾</div>
     </div>
 
     <script>
@@ -319,3 +300,4 @@
 </body>
 
 </html>
+
