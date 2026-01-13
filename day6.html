@@ -81,10 +81,10 @@
     <script>
         const GOAL=2500000;
         const actions=[
+            {name:'Use decor token',pts:480,key:'token',bundle:1},
+            {name:'Decor rating increases by 1',pts:3200,key:'rating',bundle:1},
             {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
             {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
-            {name:'Use decor token',pts:480,key:'token',bundle:1},
-            {name:'Decor rating increases by 1',pts:3200,key:'rating',bundle:1}
         ];
         const inv={};
         actions.forEach(a=>inv[a.key]=0);
@@ -172,4 +172,5 @@
         update();
     </script>
 </body>
+
 </html>
