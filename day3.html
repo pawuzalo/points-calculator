@@ -81,12 +81,12 @@
     <script>
         const GOAL=2500000;
         const actions=[
-            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
-            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
             {name:'Use 100 refined metal',pts:1000,key:'metal',bundle:100},
             {name:'Use magic thread',pts:1000,key:'thread',bundle:1},
             {name:'Use orichalcum',pts:1500,key:'orichalcum',bundle:1},
-            {name:'Use dragon blood',pts:6000,key:'blood',bundle:1}
+            {name:'Use dragon blood',pts:6000,key:'blood',bundle:1},
+            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
+            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
         ];
         const inv={};
         actions.forEach(a=>inv[a.key]=0);
@@ -174,4 +174,5 @@
         update();
     </script>
 </body>
+
 </html>
