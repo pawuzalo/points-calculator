@@ -128,11 +128,16 @@
         }
 
         function render(){
-            document.getElementById('list').innerHTML=actions.map(a=>{
-                const usable=Math.floor(inv[a.key]/a.bundle);
-                const left=inv[a.key]%a.bundle;
-                const pts=a.pts*usable;
-                return `<div class="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-4 border-2 border-pink-300 shadow-md">
+    document.getElementById('list').innerHTML = actions.map(a=>{
+        const usable = Math.floor(inv[a.key]/a.bundle);
+        const left = inv[a.key]%a.bundle;
+        const pts = a.pts*usable;
+
+        // Decor rating box with static info next to it
+        if(a.key === 'rating'){
+            return `<div class="flex gap-4 flex-col md:flex-row">
+                <!-- Original Decor Rating Box -->
+                <div class="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-4 border-2 border-pink-300 shadow-md flex-1">
                     <div class="flex justify-between items-center mb-3">
                         <span class="text-pink-700 font-black flex-1">${a.name}</span>
                         <div class="text-right">
@@ -147,9 +152,47 @@
                         ${a.bundle>1&&inv[a.key]>0?`<div class="text-xs text-pink-600 mt-1 font-semibold">= ${usable} usable${left>0?` (+${left} leftover)`:''}</div>`:''}
                     </div>
                     <div class="mt-2 text-right"><span class="text-blue-600 font-black text-lg">= ${fmt(pts)} points</span></div>
-                </div>`;
-            }).join('');
+                </div>
+
+                <!-- Decor Rating Points Info Box -->
+                <div class="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-4 border-2 border-pink-300 shadow-md flex-1">
+                    <div class="text-pink-700 font-black mb-2">ℹ️ Decor Rating Points</div>
+                    <div class="text-gray-700 text-sm space-y-1">
+                        <div>0 ► 1 &nbsp; <span class="text-blue-600 font-semibold">6</span> / <span class="text-purple-600 font-semibold">25</span> / <span class="text-yellow-500 font-semibold">100</span></div>
+                        <div>1 ► 2 &nbsp; <span class="text-blue-600 font-semibold">6</span> / <span class="text-purple-600 font-semibold">25</span> / <span class="text-yellow-500 font-semibold">100</span></div>
+                        <div>2 ► 3 &nbsp; <span class="text-blue-600 font-semibold">12</span> / <span class="text-purple-600 font-semibold">50</span> / <span class="text-yellow-500 font-semibold">200</span></div>
+                        <div>3 ► 4 &nbsp; <span class="text-blue-600 font-semibold">18</span> / <span class="text-purple-600 font-semibold">75</span> / <span class="text-yellow-500 font-semibold">300</span></div>
+                        <div>4 ► 5 &nbsp; <span class="text-blue-600 font-semibold">24</span> / <span class="text-purple-600 font-semibold">100</span> / <span class="text-yellow-500 font-semibold">400</span></div>
+                        <div>5 ► 6 &nbsp; <span class="text-blue-600 font-semibold">24</span> / <span class="text-purple-600 font-semibold">100</span> / <span class="text-yellow-500 font-semibold">400</span></div>
+                        <div>6 ► 7 &nbsp; <span class="text-blue-600 font-semibold">30</span> / <span class="text-purple-600 font-semibold">125</span> / <span class="text-yellow-500 font-semibold">500</span></div>
+                        <div>7 ► 8 &nbsp; <span class="text-blue-600 font-semibold">30</span> / <span class="text-purple-600 font-semibold">125</span> / <span class="text-yellow-500 font-semibold">500</span></div>
+                        <div>8 ► 9 &nbsp; <span class="text-blue-600 font-semibold">30</span> / <span class="text-purple-600 font-semibold">125</span> / <span class="text-yellow-500 font-semibold">500</span></div>
+                        <div>9 ► 10 &nbsp; <span class="text-blue-600 font-semibold">30</span> / <span class="text-purple-600 font-semibold">125</span> / <span class="text-yellow-500 font-semibold">500</span></div>
+                    </div>
+                </div>
+            </div>`;
         }
+
+        // All other boxes
+        return `<div class="bg-gradient-to-r from-pink-50 to-blue-50 rounded-2xl p-4 border-2 border-pink-300 shadow-md">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-pink-700 font-black flex-1">${a.name}</span>
+                <div class="text-right">
+                    <span class="text-blue-600 font-black text-lg">${a.pts} pts</span>
+                    ${a.fixed?'<span class="text-pink-500 text-xs block font-bold">FIXED</span>':''}
+                    ${a.bundle>1?`<span class="text-pink-600 text-sm block font-semibold">per ${a.bundle}</span>`:''}
+                </div>
+            </div>
+            <div>
+                <label class="text-pink-700 font-bold text-sm block mb-1">📦 Total I Have</label>
+                <input type="number" min="0" value="${inv[a.key]}" onchange="inv['${a.key}']=parseInt(this.value)||0;update()" class="w-full bg-white text-pink-700 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 border-2 border-pink-300 font-semibold" placeholder="Amount"/>
+                ${a.bundle>1&&inv[a.key]>0?`<div class="text-xs text-pink-600 mt-1 font-semibold">= ${usable} usable${left>0?` (+${left} leftover)`:''}</div>`:''}
+            </div>
+            <div class="mt-2 text-right"><span class="text-blue-600 font-black text-lg">= ${fmt(pts)} points</span></div>
+        </div>`;
+    }).join('');
+}
+
 
         function calculate(){
             const priority={token:1,rating:2,speedup:3,essence:4};
@@ -174,3 +217,4 @@
 </body>
 
 </html>
+
