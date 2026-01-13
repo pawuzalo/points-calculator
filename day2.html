@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAW PATROL - Day 2 Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2563eb 0%, #dc2626 50%, #eab308 100%);
+            min-height: 100vh;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div id="app" class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 mb-6 border-4 border-blue-700">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="text-6xl">🐾</div>
+                <div>
+                    <h1 class="text-4xl font-black text-blue-700">PAW PATROL</h1>
+                    <p class="text-red-600 font-bold text-lg">Points Mission Calculator - Day 2</p>
+                </div>
+            </div>
+            
+            <div class="bg-blue-100 rounded-2xl p-4 mb-4 border-2 border-blue-400">
+                <div class="mb-4 pb-4 border-b-2 border-blue-300">
+                    <label class="text-blue-700 font-bold text-sm block mb-2">🏆 Points Already Earned</label>
+                    <input
+                        type="number"
+                        id="alreadyEarned"
+                        min="0"
+                        value="0"
+                        class="w-full bg-white text-blue-700 px-4 py-3 rounded-xl focus:outline-none focus:ring-4 focus:ring-yellow-400 text-xl font-bold border-2 border-blue-300"
+                        placeholder="Enter points you've already earned"
+                        onchange="updateCalculations()"
+                    />
+                    <div class="mt-2 text-sm text-blue-600 font-semibold">
+                        Final Goal: <span id="finalGoal">2,500,000</span> | Still Need: <span id="stillNeed">2,500,000</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-blue-700 font-bold">🎯 Target:</span>
+                            <span class="text-2xl font-black text-blue-700" id="targetDisplay">2,500,000</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-blue-700 font-bold">📊 Current Plan:</span>
+                            <span class="text-2xl font-black text-green-600" id="currentPlan">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-700 font-bold">⏳ Remaining:</span>
+                            <span class="text-2xl font-black text-red-600" id="remaining">2,500,000</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-blue-700 font-bold">💪 Max Possible:</span>
+                            <span class="text-2xl font-black text-yellow-600" id="maxPossible">0</span>
+                        </div>
+                        <div class="text-sm text-blue-700 font-bold mt-2" id="resourceStatus">
+                            Enter your resources below
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full bg-blue-200 rounded-full h-6 overflow-hidden border-2 border-blue-400">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-blue-500 via-red-500 to-yellow-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="text-center mt-2 text-blue-700 font-black text-lg" id="progressText">0.0% Complete! 🐾</div>
+                
+                <div class="mt-4 pt-4 border-t-2 border-blue-300">
+                    <div class="text-center bg-white rounded-xl p-3 border-2 border-green-500">
+                        <div class="text-green-700 font-bold text-sm mb-1">📊 Your Current Plan:</div>
+                        <div class="text-3xl font-black text-green-600" id="missionPoints">0 🐾</div>
+                        <div class="text-sm text-blue-700 font-bold mt-1" id="totalWithEarned" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3 mb-4">
+                <button
+                    onclick="suggestOptimal()"
+                    class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-black py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-lg border-2 border-blue-800"
+                >
+                    🚁 CALCULATE MISSION PLAN
+                </button>
+            </div>
+            
+            <a href="index.html" class="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-black py-3 px-6 rounded-2xl transition-all text-center shadow-lg border-2 border-yellow-700">
+                🏠 BACK TO HOME
+            </a>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 border-4 border-blue-700 mb-6">
+            <h2 class="text-2xl font-black text-blue-700 mb-4 flex items-center gap-2">
+                <span class="text-3xl">🎒</span> RESOURCES & PLANNING
+            </h2>
+            <div id="actionsList" class="space-y-3"></div>
+        </div>
+        
+        <!-- Buy Diamonds Section -->
+        <div class="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-3xl shadow-2xl p-6 border-4 border-yellow-500 mb-6">
+            <h2 class="text-2xl font-black text-orange-700 mb-4 flex items-center gap-2">
+                <span class="text-3xl">💎</span> NEED MORE POINTS? BUY DIAMONDS
+            </h2>
+            <div class="bg-white rounded-2xl p-4 border-2 border-orange-400">
+                <div class="text-center mb-4">
+                    <div class="text-orange-700 font-bold mb-2">Each diamond purchased = 40 points</div>
+                    <div class="text-sm text-gray-600 italic">Diamonds give points instantly when bought!</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-red-50 rounded-xl p-4 border-2 border-red-300">
+                        <div class="text-red-700 font-bold text-sm mb-1">Points Still Needed:</div>
+                        <div class="text-3xl font-black text-red-600" id="diamondsShortBy">0</div>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-4 border-2 border-green-300">
+                        <div class="text-green-700 font-bold text-sm mb-1">Diamonds to Buy:</div>
+                        <div class="text-3xl font-black text-green-600" id="diamondsNeeded">0</div>
+                    </div>
+                </div>
+                <div class="mt-4 text-center text-sm text-gray-600 font-semibold">
+                    💡 This is optional - only if you want to reach the goal faster!
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Message -->
+        <div class="text-center text-white text-xl font-black bg-blue-600 py-4 rounded-2xl border-4 border-yellow-400 shadow-lg">
+            🐾 Stay PAWesome and have fun! 🐾
+        </div>
+    </div>
+
+    <script>
+        const FINAL_GOAL = 2500000;
+        
+        const actions = [
+            { name: 'Use dragon essence', points: 2000, key: 'essence', bundleSize: 1, fixed: true },
+            { name: 'Use 1min speedup', points: 45, key: 'speedup', bundleSize: 1, fixed: true },
+            { name: 'Consume 10 honor medal', points: 12, key: 'honor', bundleSize: 10, fixed: false },
+            { name: 'Consume rare troop skin', points: 12000, key: 'rare_skin', bundleSize: 1, fixed: false },
+            { name: 'Consume epic troop skin', points: 30000, key: 'epic_skin', bundleSize: 1, fixed: false },
+            { name: 'Consume legendary troop skin', points: 300000, key: 'legendary_skin', bundleSize: 1, fixed: false }
+        ];
+
+        const inventory = {};
+        
+        actions.forEach(action => {
+            inventory[action.key] = 0;
+        });
+
+        function formatNumber(num) {
+            return num.toLocaleString();
+        }
+
+        function calculateTotalPoints() {
+            return actions.reduce((sum, action) => {
+                const usableAmount = Math.floor(inventory[action.key] / action.bundleSize);
+                return sum + action.points * usableAmount;
+            }, 0);
+        }
+
+        function updateCalculations() {
+            const alreadyEarned = parseInt(document.getElementById('alreadyEarned').value) || 0;
+            const target = FINAL_GOAL - alreadyEarned;
+            const totalPoints = calculateTotalPoints();
+            const remaining = target - totalPoints;
+            const progress = Math.min((totalPoints / target) * 100, 100);
+
+            document.getElementById('finalGoal').textContent = formatNumber(FINAL_GOAL);
+            document.getElementById('stillNeed').textContent = formatNumber(target);
+            document.getElementById('targetDisplay').textContent = formatNumber(target);
+            document.getElementById('currentPlan').textContent = formatNumber(totalPoints);
+            document.getElementById('remaining').textContent = formatNumber(remaining);
+            document.getElementById('remaining').className = remaining > 0 ? 
+                'text-2xl font-black text-red-600' : 'text-2xl font-black text-green-600';
+            document.getElementById('maxPossible').textContent = formatNumber(totalPoints);
+            
+            if (totalPoints >= target) {
+                document.getElementById('resourceStatus').innerHTML = '<span class="text-green-600">✓ You have enough resources!</span>';
+            } else {
+                document.getElementById('resourceStatus').innerHTML = `<span class="text-red-600">⚠ Need more resources (short by ${formatNumber(remaining)})</span>`;
+            }
+
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = progress.toFixed(1) + '% Complete! 🐾';
+            
+            // Update mission results
+            document.getElementById('missionPoints').textContent = formatNumber(totalPoints) + ' 🐾';
+            
+            if (alreadyEarned > 0) {
+                document.getElementById('totalWithEarned').style.display = 'block';
+                document.getElementById('totalWithEarned').textContent = 
+                    'Total with already earned: ' + formatNumber(totalPoints + alreadyEarned) + ' points';
+            } else {
+                document.getElementById('totalWithEarned').style.display = 'none';
+            }
+            
+            // Update diamonds section
+            const shortBy = Math.max(0, remaining);
+            const diamondsNeeded = Math.ceil(shortBy / 40);
+            document.getElementById('diamondsShortBy').textContent = formatNumber(shortBy);
+            document.getElementById('diamondsNeeded').textContent = formatNumber(diamondsNeeded);
+
+            renderActions();
+        }
+
+        function updateInventory(key, value) {
+            const num = parseInt(value) || 0;
+            inventory[key] = Math.max(0, num);
+            updateCalculations();
+        }
+
+        function updatePoints(key, value) {
+            const action = actions.find(a => a.key === key);
+            if (action) {
+                action.points = parseInt(value) || 0;
+                updateCalculations();
+            }
+        }
+
+        function suggestOptimal() {
+            const priorityOrder = {
+                'honor': 1,
+                'rare_skin': 2,
+                'epic_skin': 3,
+                'legendary_skin': 4,
+                'speedup': 5,
+                'essence': 6
+            };
+
+            const sorted = [...actions].sort((a, b) => priorityOrder[a.key] - priorityOrder[b.key]);
+            const alreadyEarned = parseInt(document.getElementById('alreadyEarned').value) || 0;
+            let remainingPoints = FINAL_GOAL - alreadyEarned;
+
+            for (const action of sorted) {
+                const availableTotal = inventory[action.key];
+                const usableBundles = Math.floor(availableTotal / action.bundleSize);
+                const neededBundles = Math.ceil(remainingPoints / action.points);
+                const bundlesToUse = Math.min(usableBundles, neededBundles);
+
+                inventory[action.key] = bundlesToUse * action.bundleSize;
+                remainingPoints -= bundlesToUse * action.points;
+
+                if (remainingPoints <= 0) break;
+            }
+
+            updateCalculations();
+        }
+
+        function renderActions() {
+            const container = document.getElementById('actionsList');
+            container.innerHTML = actions.map(action => {
+                const usableBundles = Math.floor(inventory[action.key] / action.bundleSize);
+                const leftover = inventory[action.key] % action.bundleSize;
+                const pointsFromAction = action.points * usableBundles;
+
+                return `
+                    <div class="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-2xl p-4 border-2 border-blue-300 shadow-md">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-blue-700 font-black flex-1">${action.name}</span>
+                            <div class="text-right">
+                                ${action.fixed ? `
+                                    <span class="text-red-600 font-black text-lg">${action.points} pts</span>
+                                    <span class="text-blue-500 text-xs block font-bold">FIXED</span>
+                                ` : `
+                                    <div class="flex items-center gap-2">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value="${action.points}"
+                                            onchange="updatePoints('${action.key}', this.value)"
+                                            class="w-24 bg-yellow-200 text-red-600 font-black px-2 py-1 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 text-center border-2 border-yellow-400"
+                                        />
+                                        <span class="text-red-600 font-bold text-sm">pts</span>
+                                    </div>
+                                `}
+                                ${action.bundleSize > 1 ? `
+                                    <span class="text-blue-600 text-sm block font-semibold">per ${action.bundleSize} items</span>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-blue-700 font-bold text-sm block mb-1">
+                                📦 Total I Have ${action.bundleSize > 1 ? `(score per ${action.bundleSize})` : ''}
+                            </label>
+                            <input
+                                type="number"
+                                min="0"
+                                value="${inventory[action.key]}"
+                                onchange="updateInventory('${action.key}', this.value)"
+                                class="w-full bg-white text-blue-700 px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 border-2 border-blue-300 font-semibold"
+                                placeholder="Enter total amount"
+                            />
+                            ${action.bundleSize > 1 && inventory[action.key] > 0 ? `
+                                <div class="text-xs text-blue-600 mt-1 font-semibold">
+                                    = ${usableBundles} usable${leftover > 0 ? ` (+${leftover} leftover)` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="mt-2 text-right">
+                            <span class="text-green-600 font-black text-lg">
+                                = ${formatNumber(pointsFromAction)} points
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize
+        updateCalculations();
+    </script>
+</body>
+</html>

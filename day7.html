@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAW PATROL - Day 7 Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #2563eb 0%, #dc2626 50%, #eab308 100%);
+            min-height: 100vh;
+            font-family: 'Arial Black', Arial, sans-serif;
+        }
+        .category {cursor:pointer; transition: all 0.3s;}
+        .category:hover {transform: scale(1.02);}
+    </style>
+</head>
+<body class="p-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl p-6 mb-6 border-4 border-orange-700">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="text-6xl">🎉</div>
+                <div>
+                    <h1 class="text-4xl font-black text-orange-700">PAW PATROL</h1>
+                    <p class="text-red-600 font-bold text-lg">Day 7 - ALL METHODS ACCEPTED!</p>
+                </div>
+            </div>
+            
+            <div class="bg-orange-100 rounded-2xl p-4 mb-4 border-2 border-orange-400">
+                <div class="mb-4 pb-4 border-b-2 border-orange-300">
+                    <label class="text-orange-700 font-bold text-sm block mb-2">🏆 Points Already Earned</label>
+                    <input type="number" id="alreadyEarned" min="0" value="0" class="w-full bg-white text-orange-700 px-4 py-3 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-400 text-xl font-bold border-2 border-orange-300" placeholder="Enter points" onchange="update()"/>
+                    <div class="mt-2 text-sm text-orange-600 font-semibold">Final Goal: <span id="finalGoal">2,500,000</span> | Still Need: <span id="stillNeed">2,500,000</span></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                    <div>
+                        <div class="flex justify-between items-center mb-2"><span class="text-orange-700 font-bold">🎯 Target:</span><span class="text-2xl font-black text-orange-700" id="target">2,500,000</span></div>
+                        <div class="flex justify-between items-center mb-2"><span class="text-orange-700 font-bold">📊 Current:</span><span class="text-2xl font-black text-green-600" id="current">0</span></div>
+                        <div class="flex justify-between items-center"><span class="text-orange-700 font-bold">⏳ Remaining:</span><span class="text-2xl font-black text-red-600" id="remaining">2,500,000</span></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2"><span class="text-orange-700 font-bold">💪 Max:</span><span class="text-2xl font-black text-yellow-600" id="maxPossible">0</span></div>
+                        <div class="text-sm text-orange-700 font-bold mt-2" id="status">Enter resources</div>
+                    </div>
+                </div>
+                
+                <div class="w-full bg-orange-200 rounded-full h-6 overflow-hidden border-2 border-orange-400">
+                    <div id="progress" class="h-full bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 transition-all duration-500" style="width:0%"></div>
+                </div>
+                <div class="text-center mt-2 text-orange-700 font-black text-lg" id="progressText">0% Complete! 🐾</div>
+                
+                <div class="mt-4 pt-4 border-t-2 border-orange-300">
+                    <div class="text-center bg-white rounded-xl p-3 border-2 border-green-500">
+                        <div class="text-green-700 font-bold text-sm mb-1">📊 Your Plan:</div>
+                        <div class="text-3xl font-black text-green-600" id="planPoints">0 🐾</div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="w-full bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 text-white font-black py-4 px-6 rounded-2xl transition-all shadow-lg border-2 border-red-800 mb-3">🚁 CALCULATE MISSION PLAN</button>
+            <a href="index.html" class="block w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-black py-3 px-6 rounded-2xl transition-all text-center shadow-lg border-2 border-yellow-700">🏠 BACK TO HOME</a>
+        </div>
+
+        <div class="bg-white/95 rounded-3xl shadow-2xl p-6 border-4 border-orange-700 mb-6">
+            <h2 class="text-2xl font-black text-orange-700 mb-4">📋 ALL CATEGORIES (Click to Expand)</h2>
+            
+            <!-- FIXED ITEMS -->
+            <div class="category bg-gradient-to-r from-blue-100 to-blue-50 rounded-2xl p-4 mb-3 border-2 border-blue-400" onclick="toggle('fixed')">
+                <div class="flex justify-between items-center">
+                    <span class="text-blue-700 font-black text-lg">⚙️ FIXED ITEMS (Always Available)</span>
+                    <span class="text-blue-700 font-black text-2xl" id="fixedIcon">▼</span>
+                </div>
+            </div>
+            <div id="fixed" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- RELICS -->
+            <div class="category bg-gradient-to-r from-purple-100 to-purple-50 rounded-2xl p-4 mb-3 border-2 border-purple-400" onclick="toggle('relics')">
+                <div class="flex justify-between items-center">
+                    <span class="text-purple-700 font-black text-lg">🎒 RELICS & MAGIC</span>
+                    <span class="text-purple-700 font-black text-2xl" id="relicsIcon">▼</span>
+                </div>
+            </div>
+            <div id="relics" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- TROOP SKINS -->
+            <div class="category bg-gradient-to-r from-red-100 to-red-50 rounded-2xl p-4 mb-3 border-2 border-red-400" onclick="toggle('skins')">
+                <div class="flex justify-between items-center">
+                    <span class="text-red-700 font-black text-lg">🎨 TROOP SKINS</span>
+                    <span class="text-red-700 font-black text-2xl" id="skinsIcon">▼</span>
+                </div>
+            </div>
+            <div id="skins" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- MATERIALS -->
+            <div class="category bg-gradient-to-r from-green-100 to-green-50 rounded-2xl p-4 mb-3 border-2 border-green-400" onclick="toggle('materials')">
+                <div class="flex justify-between items-center">
+                    <span class="text-green-700 font-black text-lg">⚒️ MATERIALS</span>
+                    <span class="text-green-700 font-black text-2xl" id="materialsIcon">▼</span>
+                </div>
+            </div>
+            <div id="materials" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- HEROES -->
+            <div class="category bg-gradient-to-r from-yellow-100 to-yellow-50 rounded-2xl p-4 mb-3 border-2 border-yellow-400" onclick="toggle('heroes')">
+                <div class="flex justify-between items-center">
+                    <span class="text-yellow-700 font-black text-lg">🦸 HEROES & GEAR</span>
+                    <span class="text-yellow-700 font-black text-2xl" id="heroesIcon">▼</span>
+                </div>
+            </div>
+            <div id="heroes" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- PETS -->
+            <div class="category bg-gradient-to-r from-pink-100 to-pink-50 rounded-2xl p-4 mb-3 border-2 border-pink-400" onclick="toggle('pets')">
+                <div class="flex justify-between items-center">
+                    <span class="text-pink-700 font-black text-lg">🐕 PETS</span>
+                    <span class="text-pink-700 font-black text-2xl" id="petsIcon">▼</span>
+                </div>
+            </div>
+            <div id="pets" class="space-y-3 mb-3" style="display:none"></div>
+
+            <!-- DECOR -->
+            <div class="category bg-gradient-to-r from-indigo-100 to-indigo-50 rounded-2xl p-4 mb-3 border-2 border-indigo-400" onclick="toggle('decor')">
+                <div class="flex justify-between items-center">
+                    <span class="text-indigo-700 font-black text-lg">🏰 DECOR</span>
+                    <span class="text-indigo-700 font-black text-2xl" id="decorIcon">▼</span>
+                </div>
+            </div>
+            <div id="decor" class="space-y-3 mb-3" style="display:none"></div>
+        </div>
+        
+        <div id="shortBox" class="bg-gradient-to-r from-red-100 to-orange-100 rounded-2xl shadow-2xl p-5 border-4 border-red-500 mb-6" style="display:none">
+            <div class="flex items-center gap-2 mb-3"><span class="text-3xl">⚠️</span><h3 class="text-xl font-black text-red-700">NEED MORE POINTS?</h3></div>
+            <div class="bg-white rounded-xl p-4 border-2 border-red-300">
+                <div class="text-center mb-3"><div class="text-red-700 font-bold text-sm">You're Short By:</div><div class="text-3xl font-black text-red-600" id="shortAmount">0</div></div>
+                <div class="text-blue-700 font-bold text-sm mb-2">💡 Top Options:</div>
+                <div id="options" class="space-y-1 text-sm"></div>
+            </div>
+        </div>
+
+        <div class="text-center text-white text-xl font-black bg-orange-600 py-4 rounded-2xl border-4 border-red-400 shadow-lg">🐾 Stay PAWesome and have fun! 🐾</div>
+    </div>
+
+    <script>
+        const GOAL=2500000;
+        const categories={
+            fixed:[
+                {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,cat:'fixed'},
+                {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,cat:'fixed'}
+            ],
+            relics:[
+                {name:'Wish for relic',pts:1500,key:'wish',bundle:1,cat:'relics'},
+                {name:'Consume rare relic shard',pts:200,key:'rare',bundle:1,cat:'relics'},
+                {name:'Consume epic relic shard',pts:1000,key:'epic',bundle:1,cat:'relics'},
+                {name:'Consume legendary relic shard',pts:5000,key:'legendary',bundle:1,cat:'relics'},
+                {name:'Consume 2000 magic stones',pts:600,key:'stones',bundle:2000,cat:'relics'},
+                {name:'Consume arcane crystal',pts:1200,key:'crystal',bundle:1,cat:'relics'}
+            ],
+            skins:[
+                {name:'Consume 10 honor medal',pts:12,key:'honor',bundle:10,cat:'skins'},
+                {name:'Consume rare troop skin',pts:12000,key:'rare_skin',bundle:1,cat:'skins'},
+                {name:'Consume epic troop skin',pts:30000,key:'epic_skin',bundle:1,cat:'skins'},
+                {name:'Consume legendary troop skin',pts:300000,key:'legendary_skin',bundle:1,cat:'skins'}
+            ],
+            materials:[
+                {name:'Use 100 refined metal',pts:1000,key:'metal',bundle:100,cat:'materials'},
+                {name:'Use magic thread',pts:1000,key:'thread',bundle:1,cat:'materials'},
+                {name:'Use orichalcum',pts:1500,key:'orichalcum',bundle:1,cat:'materials'},
+                {name:'Use dragon blood',pts:6000,key:'blood',bundle:1,cat:'materials'}
+            ],
+            heroes:[
+                {name:'Recruit in tavern',pts:1500,key:'recruit',bundle:1,cat:'heroes'},
+                {name:'Consume epic hero shard',pts:1000,key:'epic_hero',bundle:1,cat:'heroes'},
+                {name:'Consume legendary/mythic hero shard',pts:4000,key:'legend_hero',bundle:1,cat:'heroes'},
+                {name:'Consume soul stone',pts:120000,key:'soul',bundle:1,cat:'heroes'},
+                {name:'Consume skill book',pts:30,key:'skill',bundle:1,cat:'heroes'},
+                {name:'Use exclusive/universal gear shard',pts:6000,key:'gear',bundle:1,cat:'heroes'}
+            ],
+            pets:[
+                {name:'Use pet food',pts:6,key:'food',bundle:1,cat:'pets'},
+                {name:'Use pet essence',pts:300,key:'pet_essence',bundle:1,cat:'pets'},
+                {name:'Consume uncommon pet',pts:6000,key:'uncommon',bundle:1,cat:'pets'},
+                {name:'Consume rare pet',pts:36000,key:'rare_pet',bundle:1,cat:'pets'}
+            ],
+            decor:[
+                {name:'Use decor token',pts:480,key:'token',bundle:1,cat:'decor'},
+                {name:'Decor rating increases by 1',pts:3200,key:'rating',bundle:1,cat:'decor'}
+            ]
+        };
+
+        const inv={};
+        const expanded={fixed:false,relics:false,skins:false,materials:false,heroes:false,pets:false,decor:false};
+        Object.values(categories).flat().forEach(a=>inv[a.key]=0);
+
+        function fmt(n){return n.toLocaleString()}
+        function calcTotal(){
+            return Object.values(categories).flat().reduce((s,a)=>s+a.pts*Math.floor(inv[a.key]/a.bundle),0);
+        }
+
+        function toggle(cat){
+            expanded[cat]=!expanded[cat];
+            document.getElementById(cat).style.display=expanded[cat]?'block':'none';
+            document.getElementById(cat+'Icon').textContent=expanded[cat]?'▲':'▼';
+        }
+
+        function update(){
+            const earned=parseInt(document.getElementById('alreadyEarned').value)||0;
+            const target=GOAL-earned;
+            const total=calcTotal();
+            const rem=target-total;
+            const prog=Math.min((total/target)*100,100);
+
+            document.getElementById('finalGoal').textContent=fmt(GOAL);
+            document.getElementById('stillNeed').textContent=fmt(target);
+            document.getElementById('target').textContent=fmt(target);
+            document.getElementById('current').textContent=fmt(total);
+            document.getElementById('remaining').textContent=fmt(rem);
+            document.getElementById('remaining').className=rem>0?'text-2xl font-black text-red-600':'text-2xl font-black text-green-600';
+            document.getElementById('maxPossible').textContent=fmt(total);
+            document.getElementById('status').innerHTML=total>=target?'<span class="text-green-600">✓ Enough!</span>':`<span class="text-red-600">⚠ Short by ${fmt(rem)}</span>`;
+            document.getElementById('progress').style.width=prog+'%';
+            document.getElementById('progressText').textContent=prog.toFixed(1)+'% Complete! 🐾';
+            document.getElementById('planPoints').textContent=fmt(total)+' 🐾';
+
+            if(rem>0){
+                document.getElementById('shortBox').style.display='block';
+                document.getElementById('shortAmount').textContent=fmt(rem)+' points';
+                const allActions=Object.values(categories).flat();
+                const sorted=[...allActions].sort((a,b)=>b.pts-a.pts).slice(0,8);
+                let opts='';
+                sorted.forEach(a=>{
+                    const need=Math.ceil(rem/a.pts);
+                    opts+=`<div class="flex justify-between items-center bg-blue-50 rounded-lg px-3 py-2"><span class="font-semibold text-blue-700">${a.name}:</span><span class="font-black text-blue-900">${fmt(need*a.bundle)} more</span></div>`;
+                });
+                opts+=`<div class="flex justify-between items-center bg-orange-50 rounded-lg px-3 py-2"><span class="font-semibold text-orange-700">💎 Buy diamonds:</span><span class="font-black text-orange-900">${fmt(Math.ceil(rem/40))}</span></div>`;
+                document.getElementById('options').innerHTML=opts;
+            }else{
+                document.getElementById('shortBox').style.display='none';
+            }
+            render();
+        }
+
+        function render(){
+            Object.keys(categories).forEach(cat=>{
+                document.getElementById(cat).innerHTML=categories[cat].map(a=>{
+                    const usable=Math.floor(inv[a.key]/a.bundle);
+                    const left=inv[a.key]%a.bundle;
+                    const pts=a.pts*usable;
+                    return `<div class="bg-white rounded-xl p-3 border-2 border-gray-300 shadow">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-gray-700 font-bold text-sm flex-1">${a.name}</span>
+                            <span class="text-orange-600 font-black">${a.pts} pts</span>
+                        </div>
+                        <div class="flex gap-2 items-center">
+                            <input type="number" min="0" value="${inv[a.key]}" onchange="inv['${a.key}']=parseInt(this.value)||0;update()" class="flex-1 bg-gray-50 text-gray-700 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 border border-gray-300 font-semibold text-sm" placeholder="Amount"/>
+                            <span class="text-green-600 font-black text-sm">${fmt(pts)} pts</span>
+                        </div>
+                        ${a.bundle>1&&inv[a.key]>0?`<div class="text-xs text-gray-600 mt-1">= ${usable} usable${left>0?` (+${left} left)`:''}</div>`:''}
+                    </div>`;
+                }).join('');
+            });
+        }
+
+        function calculate(){
+            const allActions=Object.values(categories).flat();
+            const priority={honor:1,rare:2,epic:3,legendary:4,wish:5,stones:6,crystal:7,rare_skin:8,epic_skin:9,legendary_skin:10,metal:11,thread:12,orichalcum:13,blood:14,skill:15,recruit:16,epic_hero:17,legend_hero:18,gear:19,soul:20,food:21,pet_essence:22,uncommon:23,rare_pet:24,token:25,rating:26,speedup:27,essence:28};
+            const sorted=[...allActions].sort((a,b)=>priority[a.key]-priority[b.key]);
+            const earned=parseInt(document.getElementById('alreadyEarned').value)||0;
+            let rem=GOAL-earned;
+            
+            sorted.forEach(a=>{
+                const avail=inv[a.key];
+                const usable=Math.floor(avail/a.bundle);
+                const needed=Math.ceil(rem/a.pts);
+                const use=Math.min(usable,needed);
+                inv[a.key]=use*a.bundle;
+                rem-=use*a.pts;
+                if(rem<=0)return;
+            });
+            update();
+        }
+
+        render();
+        update();
+    </script>
+</body>
+</html>
