@@ -123,7 +123,7 @@
                     const need=Math.ceil(rem/a.pts);
                     opts+=`<div class="flex justify-between items-center bg-blue-50 rounded-lg px-3 py-2"><span class="font-semibold text-blue-700">${a.name}:</span><span class="font-black text-blue-900">${fmt(need*a.bundle)} more</span></div>`;
                 });
-                opts+=`<div class="flex justify-between items-center bg-orange-50 rounded-lg px-3 py-2"><span class="font-semibold text-orange-700">💎 Buy diamonds:</span><span class="font-black text-orange-900">${fmt(Math.ceil(rem/40))}</span></div>`;
+                opts+=`<div class="flex justify-between items-center bg-orange-50 rounded-lg px-3 py-2"><span class="font-semibold text-orange-700">💎 Buy diamonds (paid option, real money):</span><span class="font-black text-orange-900">${fmt(Math.ceil(rem/40))}</span></div>`;
                 document.getElementById('options').innerHTML=opts;
             }else{
                 document.getElementById('shortBox').style.display='none';
@@ -178,4 +178,5 @@
 </body>
 
 </html>
+
 
