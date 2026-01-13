@@ -81,14 +81,14 @@
     <script>
         const GOAL=2500000;
         const actions=[
-            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
-            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
             {name:'Recruit in tavern',pts:1500,key:'recruit',bundle:1},
             {name:'Consume epic hero shard',pts:1000,key:'epic_hero',bundle:1},
             {name:'Consume legendary/mythic hero shard',pts:4000,key:'legend_hero',bundle:1},
             {name:'Consume soul stone',pts:120000,key:'soul',bundle:1},
             {name:'Consume skill book',pts:30,key:'skill',bundle:1},
-            {name:'Use exclusive/universal gear shard',pts:6000,key:'gear',bundle:1}
+            {name:'Use exclusive/universal gear shard',pts:6000,key:'gear',bundle:1},
+            {name:'Use dragon essence',pts:2000,key:'essence',bundle:1,fixed:true},
+            {name:'Use 1min speedup',pts:45,key:'speedup',bundle:1,fixed:true},
         ];
         const inv={};
         actions.forEach(a=>inv[a.key]=0);
@@ -176,4 +176,5 @@
         update();
     </script>
 </body>
+
 </html>
